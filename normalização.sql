@@ -48,3 +48,26 @@ CREATE TABLE cliente (
 -- Esta separação resolve a violação da Terceira Forma Normal porque a 
 -- cidade e o estado dependem exclusivamente do CEP, e não do CPF do cliente.
 -- Isolando esses dados, evitamos repetições e erros no banco de dados.
+
+
+
+-- ====================================================================
+-- MODELAGEM DE SISTEMA DE VENDAS: GERENCIAMENTO DE PEDIDOS (E-COMMERCE)
+-- 
+-- Cenário Prático:
+-- Para permitir que uma loja virtual registre suas vendas, foi criada a 
+-- tabela de 'pedidos'. Este módulo conecta os dados dos clientes aos 
+-- produtos comprados, controlando a quantidade e a data de cada venda, 
+-- garantindo a integridade do histórico através de chaves estrangeiras.
+-- ====================================================================
+
+CREATE TABLE pedidos (
+    pedido_id INTEGER PRIMARY KEY AUTOINCREMENT, -- Identificador único e automático de cada venda.
+    cliente_cpf VARCHAR(30) NOT NULL,            -- Vincula a compra ao cliente cadastrado (Chave Estrangeira).
+    produto_name VARCHAR(100) NOT NULL,          -- Vincula a compra ao produto do estoque (Chave Estrangeira).
+    quantidade INTEGER NOT NULL,                 -- Quantidade de itens adquiridos nesta transação.
+    data_pedido DATE NOT NULL,                   -- Registro exato do dia e horário em que o pedido foi fechado.
+    
+    FOREIGN KEY (cliente_cpf) REFERENCES cliente(cliente_cpf),
+    FOREIGN KEY (produto_name) REFERENCES produtos(produto_name)
+);
